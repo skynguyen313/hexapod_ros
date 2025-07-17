@@ -7,9 +7,24 @@ endif()
 
 # find dependencies
 find_package(ament_cmake REQUIRED)
-# uncomment the following section in order to fill in
-# further dependencies manually.
-# find_package(<dependency> REQUIRED)
+find_package(rclcpp REQUIRED)
+find_package(sensor_msgs REQUIRED)
+find_package(hexapod_interfaces REQUIRED)
+
+include_directories(include)
+
+add_executable(joint_state_publisher
+  src/joint_state_publisher.cpp
+  src/main.cpp
+)
+
+ament_target_dependencies(joint_state_publisher
+  rclcpp
+  sensor_msgs
+  hexapod_interfaces
+)
+
+install(TARGETS joint_state_publisher DESTINATION lib/${PROJECT_NAME})
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
