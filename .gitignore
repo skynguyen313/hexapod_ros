@@ -1,0 +1,61 @@
+# ROS 2 Core
+build/
+install/
+log/
+
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environment
+venv/
+env/
+.venv/
+.env/
+
+# Object files
+*.o
+*.obj
+
+# Libraries
+*.a
+*.so
+*.lib
+*.dll
+
+#Dependency files
+*.d
+
+# Visual Studio Code
+.vscode/
+
+# JetBrains (CLion, PyCharm)
+.idea/
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Qt Creator
+*.pro.user
+*.pro.user.*
+CMakeLists.txt.user
+
+# Vim
+*~
+.*.swp
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+*.log
+*.log.*
+*.crash
