@@ -13,18 +13,11 @@ find_package(hexapod_interfaces REQUIRED)
 
 include_directories(include)
 
-add_executable(joint_state_publisher
-  src/joint_state_publisher.cpp
-  src/main.cpp
-)
+add_executable(src/main.cpp)
 
-ament_target_dependencies(joint_state_publisher
-  rclcpp
-  sensor_msgs
-  hexapod_interfaces
-)
+ament_target_dependencies()
 
-install(TARGETS joint_state_publisher DESTINATION lib/${PROJECT_NAME})
+install(TARGETS ... DESTINATION lib/${PROJECT_NAME})
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
