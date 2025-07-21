@@ -3,10 +3,9 @@
 #include <array>
 #include <vector>
 #include <string>
-#include <unordered_map>
 #include <rclcpp/rclcpp.hpp>
 #include <std_msgs/msg/string.hpp>
-#include <sensor_msgs/msg/joint_state.hpp>
+#include <hexapod_msgs/msg/leg_state_array.hpp>
 
 namespace hexapod_control
 {
@@ -15,21 +14,22 @@ namespace hexapod_control
         public:
             explicit GaitEngine(rclcpp::Node::SharedPtr node);
             std::vector<std::array<double,3>> generateStep(double time);
-            void gaitTypeCallback(const std_msgs::msg::String::SharedPtr msg);
-            void legStateCallback(const hexapod_msgs::msg::LegStateArray::SharedPtr msg);
 
         private:
+            void gaitTypeCallback(const std_msgs::msg::String::SharedPtr msg);
+            void legStateCallback(const hexapod_msgs::msg::LegStateArray::SharedPtr msg);
+            double computePhase(int leg_index, double time);
+
             rclcpp::Node::SharedPtr node_;
             rclcpp::Subscription<std_msgs::msg::String>::SharedPtr gait_sub_;
             rclcpp::Subscription<hexapod_msgs::msg::LegStateArray>::SharedPtr leg_state_sub_;
+
             std::string gait_type_;
             double step_height_;
             double step_length_;
             double cycle_time_;
+            bool has_received_legs_;
 
-            std::array<std::array<double, 3>, 6> current_positions_;
-            bool has_joint_state_;
-
-            double computePhase(int leg_index, double time);
+            std::array<std::array<double, 3>, 6> neutral_positions_;    
     }
 }
