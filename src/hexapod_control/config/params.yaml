@@ -5,7 +5,6 @@ hexapod_control:
     cycle_time: 2.0
     gait_type: "tripod"
 
-joint_state_publisher:
-  ros__parameters:
-    frequency: 0.8
-    amplitude: 0.3
+    coxa_length: 0.05
+    femur_length: 0.08
+    tibia_length: 0.10

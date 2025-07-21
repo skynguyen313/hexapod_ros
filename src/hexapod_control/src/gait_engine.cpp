@@ -5,16 +5,10 @@ namespace hexapod_control
 {
     GaitEngine::GaitEngine(rclcpp::Node::SharedPtr node) : node_(node), has_received_legs_(false)
     {
-        // Params
-        node_->declare_parameter("step_height", 0.00);
-        node_->declare_parameter("step_length", 0.00);
-        node_->declare_parameter("cycle_time", 0.00);
-        node_->declare_parameter("gait_type", "tripod");
-
-        node_->get_parameter("step_height", step_height_);
-        node_->get_parameter("step_length", step_length_);
-        node_->get_parameter("cycle_time", cycle_time_);
-        node_->get_parameter("gait_type", gait_type_);
+        step_height_ = node_->get_parameter("step_height").as_double();
+        step_length_ = node_->get_parameter("step_length").as_double();
+        cycle_time_  = node_->get_parameter("cycle_time").as_double();
+        gait_type_   = node_->get_parameter("gait_type").as_string();
 
         // Subscriptions
         gait_sub_ = node_->create_subscription<std_msgs::msg::String>(
@@ -22,7 +16,7 @@ namespace hexapod_control
             std::bind(&GaitEngine::gaitTypeCallback, this, std::placeholders::_1)
         );
         
-        leg_state_sub_ = node_->create_subscription<hexapod_msgs::msg::LegStateArray>(
+        leg_state_sub_ = node_->create_subscription<hexapod_interfaces::msg::LegStateArray>(
             "/hexapod/leg_states", 10,
             std::bind(&GaitEngine::legStateCallback, this, std::placeholders::_1)
         );
@@ -36,7 +30,7 @@ namespace hexapod_control
         RCLCPP_INFO(node_->get_logger(), "Gait type updated to: %s", gait_type_.c_str());
     }
 
-    void GaitEngine::legStateCallback(const hexapod_msgs::msg::LegStateArray::SharedPtr msg)
+    void GaitEngine::legStateCallback(const hexapod_interfaces::msg::LegStateArray::SharedPtr msg)
     {
         if (msg->legs.size() != 6) {
             RCLCPP_WARN(node_->get_logger(), "Received leg state array with wrong size!");
@@ -61,11 +55,16 @@ namespace hexapod_control
         return std::fmod(time, cycle_time_) / cycle_time_;  // fallback
     }
 
+    bool GaitEngine::hasReceivedLegs() const 
+    {
+        return has_received_legs_;
+    }
+
     std::vector<std::array<double, 3>> GaitEngine::generateStep(double time)
     {
         std::vector<std::array<double, 3>> steps(6);
 
-        if (!has_joint_state_) {
+        if (!has_received_legs_) {
             RCLCPP_WARN_THROTTLE(node_->get_logger(), *node_->get_clock(), 2000,
                 "Haven't received leg state data yet. Skipping step generation.");
             return steps;

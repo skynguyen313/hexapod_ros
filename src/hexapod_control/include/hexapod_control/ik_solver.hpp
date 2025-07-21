@@ -5,6 +5,7 @@
 #include <cmath>
 #include <stdexcept>
 #include <vector>
+#include "rclcpp/rclcpp.hpp"
 
 namespace hexapod_control
 {
@@ -18,7 +19,7 @@ namespace hexapod_control
     class IKSolver
     {
         public:
-            explicit IKSolver(const LegDimensions &dims);
+            explicit IKSolver(const rclcpp::Node::SharedPtr &node);
 
             // Compute IK for a given leg tip position (in meters)
             std::array<double, 3> computeIK(double x, double y, double z);

@@ -2,7 +2,12 @@
 
 namespace hexapod_control
 {
-    IKSolver::IKSolver(const LegDimensions &dims) : dims_(dims) {}
+    IKSolver::IKSolver(const rclcpp::Node::SharedPtr &node)
+    {
+        dims_.coxa = node->get_parameter("coxa_length").as_double();
+        dims_.femur = node->get_parameter("femur_length").as_double();
+        dims_.tibia = node->get_parameter("tibia_length").as_double();
+    }
 
     std::array<double, 3> IKSolver::computeIK(double x, double y, double z)
     {

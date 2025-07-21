@@ -9,15 +9,13 @@ endif()
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(sensor_msgs REQUIRED)
+find_package(std_msgs REQUIRED)
 find_package(hexapod_interfaces REQUIRED)
 
-include_directories(include)
-
-add_executable(src/main.cpp)
-
-ament_target_dependencies()
-
-install(TARGETS ... DESTINATION lib/${PROJECT_NAME})
+add_executable(hexapod_control src/main.cpp src/ik_solver.cpp src/gait_engine.cpp)
+ament_target_dependencies(hexapod_control rclcpp sensor_msgs std_msgs hexapod_interfaces)
+target_include_directories(hexapod_control PUBLIC include)
+install(TARGETS hexapod_control DESTINATION lib/${PROJECT_NAME})
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
