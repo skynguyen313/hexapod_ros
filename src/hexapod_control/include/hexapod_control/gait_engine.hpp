@@ -5,7 +5,7 @@
 #include <string>
 #include <rclcpp/rclcpp.hpp>
 #include <std_msgs/msg/string.hpp>
-#include <hexapod_msgs/msg/leg_state_array.hpp>
+#include <hexapod_interfaces/msg/leg_state_array.hpp>
 
 namespace hexapod_control
 {
