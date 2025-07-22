@@ -9,27 +9,24 @@
 
 namespace hexapod_control
 {
+
     struct LegDimensions
     {
-        double coxa;   // length from body center to first joint
-        double femur;  // upper leg
-        double tibia;  // lower leg
+        double coxa;
+        double femur;
+        double tibia;
     };
 
-    class IKSolver
+    class IK
     {
         public:
-            explicit IKSolver(const rclcpp::Node::SharedPtr &node);
-
-            // Compute IK for a given leg tip position (in meters)
+            explicit IK(const rclcpp::Node::SharedPtr &node);
+                    
             std::array<double, 3> computeIK(double x, double y, double z);
-            
-            // Compute IK for multiple legs
             std::vector<std::array<double, 3>> computeMultipleIK(const std::vector<std::array<double, 3>> &targets);
 
         private:
             LegDimensions dims_;
+    };
 
-    };  // namespace hexapod_control
-
-}
+}   // namespace hexapod_control

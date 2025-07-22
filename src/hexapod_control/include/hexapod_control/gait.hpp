@@ -9,10 +9,12 @@
 
 namespace hexapod_control
 {
-    class GaitEngine
+
+    class Gait
     {
         public:
-            explicit GaitEngine(rclcpp::Node::SharedPtr node);
+            explicit Gait(rclcpp::Node::SharedPtr node);
+
             bool hasReceivedLegs() const;
             std::vector<std::array<double,3>> generateStep(double time);
 
@@ -33,4 +35,5 @@ namespace hexapod_control
 
             std::array<std::array<double, 3>, 6> neutral_positions_;    
     };
-}
+
+}   // namespace hexapod_control
