@@ -6,7 +6,7 @@
 int main(int argc, char* argv[])
 {
     rclcpp::init(argc, argv);
-    auto node = std::make_shared<rclcpp::Node>("hexapod_control_node");
+    auto node = std::make_shared<rclcpp::Node>("hexapod_control");
 
     // Params
     node->declare_parameter("coxa_length",  0.00);
