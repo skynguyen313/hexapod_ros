@@ -1,0 +1,6 @@
+string command_type
+string command_value
+float32 velocity
+---
+bool success
+string message
