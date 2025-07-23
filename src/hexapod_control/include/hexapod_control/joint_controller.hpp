@@ -6,13 +6,13 @@
 namespace hexapod_control
 {
 
-    class Controller
+    class JointController
     {
         public:
-            explicit Controller(rclcpp::Node::SharedPtr node);
+            explicit JointController(rclcpp::Node::SharedPtr node);
 
             void publish(const std::vector<std::string>& joint_names,
-                        const std::vector<std::array<double, 3>>& joint_angles);
+                    const std::vector<std::array<double, 3>>& joint_angles);
 
         private:
             rclcpp::Node::SharedPtr node_;

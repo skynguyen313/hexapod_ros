@@ -1,7 +1,7 @@
 #include "rclcpp/rclcpp.hpp"
-#include "hexapod_control/gait.hpp"
-#include "hexapod_control/ik.hpp"
-#include "hexapod_control/controller.hpp"
+#include "hexapod_control/gait_engine.hpp"
+#include "hexapod_control/ik_solver.hpp"
+#include "hexapod_control/joint_controller.hpp"
 
 int main(int argc, char* argv[])
 {
@@ -17,9 +17,9 @@ int main(int argc, char* argv[])
     node->declare_parameter("cycle_time",   0.00);
     node->declare_parameter("gait_type",      "");
 
-    hexapod_control::Gait gait(node);
-    hexapod_control::IK ik(node);
-    hexapod_control::Controller controller(node);
+    hexapod_control::GaitEngine gait_engine(node);
+    hexapod_control::IKSolver ik_solver(node);
+    hexapod_control::JointController joint_controller(node);
 
     const std::vector<std::string> joint_names = {
         "leg_1_hip_joint", "leg_1_thigh_joint", "leg_1_knee_joint",
@@ -35,17 +35,17 @@ int main(int argc, char* argv[])
     while (rclcpp::ok()) {
         rclcpp::spin_some(node);
 
-        if (!gait.hasReceivedLegs()) {
+        if (!gait_engine.hasReceivedLegs()) {
             RCLCPP_WARN_THROTTLE(node->get_logger(), *node->get_clock(), 2000, "Waiting for leg state data...");
             rate.sleep();
             continue;
         }
 
         double time_now = node->get_clock()->now().seconds();
-        auto foot_positions = gait.generateStep(time_now);
-        auto joint_angles = ik.computeMultipleIK(foot_positions);
+        auto foot_positions = gait_engine.generateStep(time_now);
+        auto joint_angles = ik_solver.computeMultipleIK(foot_positions);
 
-        controller.publish(joint_names, joint_angles);
+        joint_controller.publish(joint_names, joint_angles);
         rate.sleep();
     }
 

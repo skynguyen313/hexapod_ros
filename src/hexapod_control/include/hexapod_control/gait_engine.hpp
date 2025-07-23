@@ -10,10 +10,10 @@
 namespace hexapod_control
 {
 
-    class Gait
+    class GaitEngine
     {
         public:
-            explicit Gait(rclcpp::Node::SharedPtr node);
+            explicit GaitEngine(rclcpp::Node::SharedPtr node);
 
             bool hasReceivedLegs() const;
             std::vector<std::array<double,3>> generateStep(double time);
