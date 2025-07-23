@@ -1,0 +1,8 @@
+hexapod_teleop_server:
+  ros__parameters:
+    command_type_gait: "gait"
+    command_type_speed: "speed"
+    command_type_turn: "turn"
+    command_type_rotate: "rotate"
+    command_type_lift: "lift"
+    

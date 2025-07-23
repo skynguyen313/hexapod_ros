@@ -7,9 +7,18 @@ endif()
 
 # find dependencies
 find_package(ament_cmake REQUIRED)
-# uncomment the following section in order to fill in
-# further dependencies manually.
-# find_package(<dependency> REQUIRED)
+find_package(rclcpp REQUIRED)
+find_package(std_msgs REQUIRED)
+find_package(hexapod_interfaces REQUIRED)
+
+add_executable(server src/server.cpp)
+
+ament_target_dependencies(server rclcpp std_msgs hexapod_interfaces)
+
+target_include_directories(server PRIVATE include)
+
+install(TARGETS server DESTINATION lib/${PROJECT_NAME})
+
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
