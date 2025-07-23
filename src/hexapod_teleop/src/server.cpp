@@ -2,7 +2,7 @@
 
 namespace hexapod_teleop
 {
-    Server::Server() : Node("hexapod_teleop")
+    TeleopServer::TeleopServer() : Node("teleop_server")
     {
         this->declare_parameter("command_type_gait", "gait");
         this->declare_parameter("command_type_speed", "speed");
@@ -18,7 +18,7 @@ namespace hexapod_teleop
 
         service_ = this->create_service<hexapod_interfaces::srv::TeleopCommand>(
             "teleop_command",
-            std::bind(&Server::handle_command, this, std::placeholders::_1, std::placeholders::_2));
+            std::bind(&TeleopServer::handle_command, this, std::placeholders::_1, std::placeholders::_2));
         
         gait_pub_ = this->create_publisher<std_msgs::msg::String>("/hexapod/gait_type", 10);
         speed_pub_ = this->create_publisher<std_msgs::msg::String>("/hexapod/speed", 10);
@@ -27,7 +27,7 @@ namespace hexapod_teleop
         RCLCPP_INFO(this->get_logger(), "TeleopServer ready to receive commands");
     }
 
-    void Server::handle_command(const std::shared_ptr<hexapod_interfaces::srv::TeleopCommand::Request> request,
+    void TeleopServer::handle_command(const std::shared_ptr<hexapod_interfaces::srv::TeleopCommand::Request> request,
                                 const std::shared_ptr<hexapod_interfaces::srv::TeleopCommand::Response> response)
     {
         std_msgs::msg::String msg;
@@ -53,7 +53,7 @@ namespace hexapod_teleop
 int main(int argc, char **argv)
 {
     rclcpp::init(argc, argv);
-    auto node = std::make_shared<hexapod_teleop::Server>();
+    auto node = std::make_shared<hexapod_teleop::TeleopServer>();
     rclcpp::spin(node);
     rclcpp::shutdown();
     return 0;

@@ -6,10 +6,10 @@
 
 namespace hexapod_teleop
 {
-    class Server : public rclcpp::Node
+    class TeleopServer : public rclcpp::Node
     {
         public:
-            Server();
+            TeleopServer();
         
         private:
             void handle_command(const std::shared_ptr<hexapod_interfaces::srv::TeleopCommand::Request> request,

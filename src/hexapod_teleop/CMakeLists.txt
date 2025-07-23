@@ -11,13 +11,13 @@ find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(hexapod_interfaces REQUIRED)
 
-add_executable(server src/server.cpp)
+add_executable(teleop_server src/server.cpp)
 
-ament_target_dependencies(server rclcpp std_msgs hexapod_interfaces)
+ament_target_dependencies(teleop_server rclcpp std_msgs hexapod_interfaces)
 
-target_include_directories(server PRIVATE include)
+target_include_directories(teleop_server PRIVATE include)
 
-install(TARGETS server DESTINATION lib/${PROJECT_NAME})
+install(TARGETS teleop_server DESTINATION lib/${PROJECT_NAME})
 
 
 if(BUILD_TESTING)
