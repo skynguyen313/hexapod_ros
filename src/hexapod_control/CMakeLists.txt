@@ -12,13 +12,13 @@ find_package(sensor_msgs REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(hexapod_interfaces REQUIRED)
 
-add_executable(control src/main.cpp src/gait.cpp src/ik.cpp src/controller.cpp)
+add_executable(hexapod_control src/main.cpp src/gait_engine.cpp src/ik_solver.cpp src/joint_controller.cpp)
 
-ament_target_dependencies(control rclcpp sensor_msgs std_msgs hexapod_interfaces)
+ament_target_dependencies(hexapod_control rclcpp sensor_msgs std_msgs hexapod_interfaces)
 
-target_include_directories(control PRIVATE include)
+target_include_directories(hexapod_control PRIVATE include)
 
-install(TARGETS control DESTINATION lib/${PROJECT_NAME})
+install(TARGETS hexapod_control DESTINATION lib/${PROJECT_NAME})
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)

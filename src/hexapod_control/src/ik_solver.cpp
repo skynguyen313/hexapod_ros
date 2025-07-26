@@ -1,15 +1,15 @@
-#include "hexapod_control/ik.hpp"
+#include "hexapod_control/ik_solver.hpp"
 
 namespace hexapod_control
 {
-    IK::IK(const rclcpp::Node::SharedPtr &node)
+    IKSolver::IKSolver(const rclcpp::Node::SharedPtr &node)
     {
         dims_.coxa  = node->get_parameter("coxa_length").as_double();
         dims_.femur = node->get_parameter("femur_length").as_double();
         dims_.tibia = node->get_parameter("tibia_length").as_double();
     }
 
-    std::array<double, 3> IK::computeIK(double x, double y, double z)
+    std::array<double, 3> IKSolver::computeIK(double x, double y, double z)
     {
         constexpr double PI = 3.14159265358979323846;
 
@@ -39,7 +39,7 @@ namespace hexapod_control
         return {coxa_angle, femur_angle, tibia_angle};
     }
 
-    std::vector<std::array<double, 3>> IK::computeMultipleIK(const std::vector<std::array<double, 3>> &targets)
+    std::vector<std::array<double, 3>> IKSolver::computeMultipleIK(const std::vector<std::array<double, 3>> &targets)
     {
         std::vector<std::array<double, 3>> results;
         results.reserve(targets.size());

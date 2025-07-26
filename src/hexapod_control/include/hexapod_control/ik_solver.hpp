@@ -17,10 +17,10 @@ namespace hexapod_control
         double tibia;
     };
 
-    class IK
+    class IKSolver
     {
         public:
-            explicit IK(const rclcpp::Node::SharedPtr &node);
+            explicit IKSolver(const rclcpp::Node::SharedPtr &node);
                     
             std::array<double, 3> computeIK(double x, double y, double z);
             std::vector<std::array<double, 3>> computeMultipleIK(const std::vector<std::array<double, 3>> &targets);
